@@ -1,0 +1,60 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/3/a/PC.hdl
+/**
+ * A 16-bit counter.
+ * if      reset(t): out(t+1) = 0
+ * else if load(t):  out(t+1) = in(t)
+ * else if inc(t):   out(t+1) = out(t) + 1
+ * else              out(t+1) = out(t)
+ */
+CHIP PC {
+    IN in[16], reset, load, inc;
+    OUT out[16];
+    
+    PARTS:
+    Not(in=reset, out=notreset); 
+    Not(in=load, out=notload); 
+    Not(in=inc, out=notinc); 
+
+    And(a=notreset, b=load, out=notresetAload); 
+    And(a=notreset, b=notload, out=notresetAnotload); 
+    And(a=notresetAnotload, b=inc, out=notresetAnotloadAinc); 
+    And(a=notresetAnotload, b=notinc, out=notresetAnotloadAnotinc); 
+
+    Mux(a=false, b=true, sel=reset, out=azx); 
+    Mux(a=azx, b=false, sel=notresetAload, out=bzx); 
+    Mux(a=bzx, b=true, sel=notresetAnotloadAinc, out=czx); 
+    Mux(a=czx, b=true, sel=notresetAnotloadAnotinc, out=zx); 
+
+    Mux(a=true, b=false, sel=reset, out=anx); 
+    Mux(a=anx, b=false, sel=notresetAload, out=bnx); 
+    Mux(a=bnx, b=true, sel=notresetAnotloadAinc, out=cnx); 
+    Mux(a=cnx, b=true, sel=notresetAnotloadAnotinc, out=nx);
+
+    Mux(a=false, b=true, sel=reset, out=azy); 
+    Mux(a=azy, b=true, sel=notresetAload, out=bzy); 
+    Mux(a=bzy, b=false, sel=notresetAnotloadAinc, out=czy); 
+    Mux(a=czy, b=false, sel=notresetAnotloadAnotinc, out=zy);  
+
+    Mux(a=true, b=false, sel=reset, out=any); 
+    Mux(a=any, b=true, sel=notresetAload, out=bny); 
+    Mux(a=bny, b=true, sel=notresetAnotloadAinc, out=cny); 
+    Mux(a=cny, b=false, sel=notresetAnotloadAnotinc, out=ny); 
+
+    Mux(a=false, b=true, sel=reset, out=af); 
+    Mux(a=af, b=false, sel=notresetAload, out=bf); 
+    Mux(a=bf, b=true, sel=notresetAnotloadAinc, out=cf); 
+    Mux(a=cf, b=false, sel=notresetAnotloadAnotinc, out=f); 
+
+    Mux(a=true, b=false, sel=reset, out=ano); 
+    Mux(a=ano, b=false, sel=notresetAload, out=bno); 
+    Mux(a=bno, b=true, sel=notresetAnotloadAinc, out=cno); 
+    Mux(a=cno, b=false, sel=notresetAnotloadAnotinc, out=no); 
+
+    ALU(x=in, y=dupout, zx=zx, nx=nx, zy=zy, ny=ny, f=f, no=no, out=ALUout, zr=dummy0, ng=dummy1); 
+
+    Register(in=ALUout, load=true, out=dupout); 
+    Register(in=ALUout, load=true, out=out);
+}

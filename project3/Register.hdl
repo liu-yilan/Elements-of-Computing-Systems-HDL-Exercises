@@ -1,0 +1,66 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/3/a/Register.hdl
+/**
+ * 16-bit register:
+ * If load is asserted, the register's value is set to in;
+ * Otherwise, the register maintains its current value:
+ * if (load(t)) out(t+1) = int(t), else out(t+1) = out(t)
+ */
+CHIP Register {
+    IN in[16], load;
+    OUT out[16];
+
+    PARTS:
+    Mux(a=dupout0, b=in[0], sel=load, out=DFFin0); 
+    Mux(a=dupout1, b=in[1], sel=load, out=DFFin1);
+    Mux(a=dupout2, b=in[2], sel=load, out=DFFin2);
+    Mux(a=dupout3, b=in[3], sel=load, out=DFFin3);
+    Mux(a=dupout4, b=in[4], sel=load, out=DFFin4);
+    Mux(a=dupout5, b=in[5], sel=load, out=DFFin5);
+    Mux(a=dupout6, b=in[6], sel=load, out=DFFin6);
+    Mux(a=dupout7, b=in[7], sel=load, out=DFFin7);
+    Mux(a=dupout8, b=in[8], sel=load, out=DFFin8);
+    Mux(a=dupout9, b=in[9], sel=load, out=DFFin9);
+    Mux(a=dupout10, b=in[10], sel=load, out=DFFin10);
+    Mux(a=dupout11, b=in[11], sel=load, out=DFFin11);
+    Mux(a=dupout12, b=in[12], sel=load, out=DFFin12);
+    Mux(a=dupout13, b=in[13], sel=load, out=DFFin13);
+    Mux(a=dupout14, b=in[14], sel=load, out=DFFin14);
+    Mux(a=dupout15, b=in[15], sel=load, out=DFFin15);
+
+    DFF(in=DFFin0, out=dupout0); 
+    DFF(in=DFFin1, out=dupout1);
+    DFF(in=DFFin2, out=dupout2); 
+    DFF(in=DFFin3, out=dupout3); 
+    DFF(in=DFFin4, out=dupout4); 
+    DFF(in=DFFin5, out=dupout5); 
+    DFF(in=DFFin6, out=dupout6); 
+    DFF(in=DFFin7, out=dupout7); 
+    DFF(in=DFFin8, out=dupout8); 
+    DFF(in=DFFin9, out=dupout9); 
+    DFF(in=DFFin10, out=dupout10); 
+    DFF(in=DFFin11, out=dupout11); 
+    DFF(in=DFFin12, out=dupout12); 
+    DFF(in=DFFin13, out=dupout13); 
+    DFF(in=DFFin14, out=dupout14); 
+    DFF(in=DFFin15, out=dupout15); 
+
+    DFF(in=DFFin0, out=out[0]); 
+    DFF(in=DFFin1, out=out[1]); 
+    DFF(in=DFFin2, out=out[2]);
+    DFF(in=DFFin3, out=out[3]);
+    DFF(in=DFFin4, out=out[4]);
+    DFF(in=DFFin5, out=out[5]);
+    DFF(in=DFFin6, out=out[6]);
+    DFF(in=DFFin7, out=out[7]);
+    DFF(in=DFFin8, out=out[8]);
+    DFF(in=DFFin9, out=out[9]);
+    DFF(in=DFFin10, out=out[10]);
+    DFF(in=DFFin11, out=out[11]);
+    DFF(in=DFFin12, out=out[12]);
+    DFF(in=DFFin13, out=out[13]);
+    DFF(in=DFFin14, out=out[14]);
+    DFF(in=DFFin15, out=out[15]);
+}
